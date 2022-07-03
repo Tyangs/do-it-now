@@ -1,7 +1,11 @@
 import Router from './Router';
 
 function App() {
-  return <Router />;
+  return (
+    <div className="light">
+      <Router />
+    </div>
+  );
 }
 
 export default App;

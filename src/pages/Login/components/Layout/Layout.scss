@@ -1,0 +1,29 @@
+.login-layout {
+  height: 100vh;
+  display: flex;
+
+  &__intro {
+    box-sizing: border-box;
+    width: 40%;
+    padding: 0 6%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__sign-in {
+    flex: 1;
+    background-color: #f7f7fa;
+  }
+
+  @media (max-width: 60rem) {
+    flex-direction: column;
+
+    &__intro {
+      width: 100%;
+      height: 20%;
+    }
+  }
+}
