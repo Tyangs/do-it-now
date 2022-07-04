@@ -30,7 +30,18 @@ code {
 
 .light {
   --primary-text: rgb(33, 21, 81);
+  --second-text: rgb(77, 67, 117);
 }
 
 .dark {
+}
+
+@media (max-width: 60rem) {
+  body {
+    user-select: none;
+  }
+
+  .text {
+    user-select: auto;
+  }
 }

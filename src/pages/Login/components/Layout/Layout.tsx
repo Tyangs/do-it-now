@@ -12,8 +12,8 @@ const Layout = (props: ILayoutProps) => {
 
   return (
     <div className="login-layout">
-      <div className="login-layout__intro">{intro}</div>
-      <div className="login-layout__sign-in">{signIn}</div>
+      <div className="login-layout__intro-wrapper">{intro}</div>
+      <div className="login-layout__sign-in-wrapper">{signIn}</div>
     </div>
   );
 };
