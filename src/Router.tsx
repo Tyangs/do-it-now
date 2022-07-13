@@ -1,13 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Navigate replace to="/login" />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
