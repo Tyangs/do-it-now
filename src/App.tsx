@@ -1,9 +1,13 @@
+import ReactQueryClientProvider from '@/providers/ReactQueryClientProvider';
+
 import Router from './Router';
 
 function App() {
   return (
     <div className="light">
-      <Router />
+      <ReactQueryClientProvider>
+        <Router />
+      </ReactQueryClientProvider>
     </div>
   );
 }
