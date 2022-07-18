@@ -19,6 +19,7 @@ specifiers:
   react: ^18.0.0
   react-dom: ^18.0.0
   react-query: ^3.39.1
+  react-query-devtools: ^2.6.3
   react-router-dom: ^6.3.0
   sass: ^1.53.0
   svgo: ^2.8.0
@@ -30,6 +31,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
+  react-query-devtools: 2.6.3_hsmbvjrvt6b6om3iseqj6lghay
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
 
 devDependencies:
@@ -2342,6 +2344,13 @@ packages:
     dev: true
     optional: true
 
+  /match-sorter/4.2.1:
+    resolution: {integrity: sha512-s+3h9TiZU9U1pWhIERHf8/f4LmBN6IXaRgo2CI17+XGByGS1GvG5VvXK9pcGyCjGe3WM3mSYRC3ipGrd5UEVgw==}
+    dependencies:
+      '@babel/runtime': 7.18.6
+      remove-accents: 0.4.2
+    dev: false
+
   /match-sorter/6.3.1:
     resolution: {integrity: sha512-mxybbo3pPNuA+ZuCUhm5bwNkXrJTbsk5VWbR5wiwz/GC6LIiegBGn2w3O08UG/jdbYLinw51fSQ5xNU1U3MgBw==}
     dependencies:
@@ -2613,6 +2622,17 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-query-devtools/2.6.3_hsmbvjrvt6b6om3iseqj6lghay:
+    resolution: {integrity: sha512-pSvWq5Q8zgIP7QbF0+4BerCHLaLn5HPzce7sIXYqz4XEizcYJHkJtcrAwn6bUkCu5JmAt1Y7fViQtZwOIG2SYA==}
+    peerDependencies:
+      react: ^16.6.3 || ^17.0.0
+      react-query: ^2.0.0
+    dependencies:
+      match-sorter: 4.2.1
+      react: 18.2.0
+      react-query: 3.39.1_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /react-query/3.39.1_biqbaboplfbrettd7655fr4n2y:
