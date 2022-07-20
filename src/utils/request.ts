@@ -1,5 +1,5 @@
 type RequestOptions = Omit<RequestInit, 'body'> & {
-  body: Record<string, any> | RequestInit['body'];
+  body?: Record<string, any> | RequestInit['body'];
 };
 
 export const getRequestHeaders = async (
