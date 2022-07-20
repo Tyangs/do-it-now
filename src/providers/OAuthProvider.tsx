@@ -1,9 +1,9 @@
-import { createContext, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { DO_IT_NOW_TOKEN_KEY } from '@/constants/storageKey';
-import { useGitHubOauthMutation } from '@/queries/oauth/useGitHubOauthMutation';
+import { useGitHubOAuthQuery } from '@/queries/oauth';
 export interface IOAuthProviderProps {
   children: React.ReactNode;
 }
@@ -19,24 +19,18 @@ const OAuthProvider = (props: IOAuthProviderProps) => {
 
   const [token, setToken] = useState<string>('');
 
-  const searchParams = new URLSearchParams(window.location.search);
-  const githubOauthCode = searchParams.get('code');
+  const githubOauthCode = useMemo(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    return searchParams.get('code');
+  }, []);
 
-  const { mutate, isLoading, data: githubResponse } = useGitHubOauthMutation();
-
-  console.log(githubResponse);
+  const { data: githubResponse, isLoading } =
+    useGitHubOAuthQuery(githubOauthCode);
 
   useEffect(() => {
     const storageToken = window.sessionStorage.getItem(DO_IT_NOW_TOKEN_KEY);
     if (storageToken) {
       setToken(storageToken);
-    } else if (githubOauthCode) {
-      mutate(githubOauthCode, {
-        onSuccess: data => {
-          window.sessionStorage.setItem(DO_IT_NOW_TOKEN_KEY, data.access_token);
-          setToken(data.access_token);
-        },
-      });
     }
   }, []);
 
