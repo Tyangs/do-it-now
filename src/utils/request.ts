@@ -1,3 +1,5 @@
+import { DO_IT_NOW_TOKEN_KEY } from '@/constants/storageKey';
+
 type RequestOptions = Omit<RequestInit, 'body'> & {
   body?: Record<string, any> | RequestInit['body'];
 };
@@ -6,6 +8,7 @@ export const getRequestHeaders = async (
   headers?: HeadersInit
 ): Promise<HeadersInit> => ({
   'Content-Type': 'application/json',
+  Authorization: `token ${window.localStorage.getItem(DO_IT_NOW_TOKEN_KEY)}`,
   ...headers,
 });
 
@@ -32,6 +35,12 @@ export const getRequestInit = async (
   } as RequestInit;
 };
 
+const logout = () => {
+  if (!window.location.href.includes('/login')) {
+    window.open(`${window.location.origin}/login`, '_self');
+  }
+};
+
 export const request = async <Response>(
   uri: string,
   options?: RequestOptions
@@ -41,7 +50,7 @@ export const request = async <Response>(
   const response = await fetch(uri, init);
 
   if (response.status === 401) {
-    // logout();
+    logout();
   }
 
   return await response.json();
