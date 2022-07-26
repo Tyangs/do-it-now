@@ -1,41 +1,49 @@
 import { createContext, useMemo, useState } from 'react';
 import React, { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 import { DO_IT_NOW_TOKEN_KEY } from '@/constants/storageKey';
-import { useGitHubOAuthQuery } from '@/queries/oauth';
+import { IGitHubOAuthResponse, useGitHubOAuthQuery } from '@/queries/oauth';
+import { IGitHubUserResponse } from '@/queries/user/types';
+import { useGitHubUserQuery } from '@/queries/user/userGitHubUserQuery';
 export interface IOAuthProviderProps {
   children: React.ReactNode;
 }
 
 export interface IOAuthContentProps {
-  token: string;
+  user?: IGitHubUserResponse;
 }
 
-export const OAuthContent = createContext<IOAuthContentProps>({ token: '' });
+export const OAuthContent = createContext<IOAuthContentProps>({});
 
 const OAuthProvider = (props: IOAuthProviderProps) => {
   const { children } = props;
 
-  const [token, setToken] = useState<string>('');
+  const { data: userInfo, isLoading: isUserLoading } = useGitHubUserQuery();
 
   const githubOauthCode = useMemo(() => {
     const searchParams = new URLSearchParams(window.location.search);
     return searchParams.get('code');
   }, []);
 
-  const { data: githubResponse, isLoading } =
-    useGitHubOAuthQuery(githubOauthCode);
+  const handleGetTokenSuccess = (data: IGitHubOAuthResponse) => {
+    window.localStorage.setItem(DO_IT_NOW_TOKEN_KEY, data.access_token);
+    window.open(window.location.origin, '_self');
+  };
 
-  useEffect(() => {
-    const storageToken = window.sessionStorage.getItem(DO_IT_NOW_TOKEN_KEY);
-    if (storageToken) {
-      setToken(storageToken);
-    }
-  }, []);
+  useGitHubOAuthQuery({
+    code: githubOauthCode,
+    onSuccess: handleGetTokenSuccess,
+  });
+
+  const { user } = useMemo(
+    () => ({
+      user: userInfo,
+    }),
+    [userInfo]
+  );
 
   return (
-    <OAuthContent.Provider value={{ token }}>{children}</OAuthContent.Provider>
+    <OAuthContent.Provider value={{ user }}>{children}</OAuthContent.Provider>
   );
 };
 
