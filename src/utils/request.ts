@@ -1,4 +1,4 @@
-import { DO_IT_NOW_TOKEN_KEY } from '@/constants/storageKey';
+import { DO_IT_NOW_TOKEN_KEY } from '@/constants/storageKeys';
 
 type RequestOptions = Omit<RequestInit, 'body'> & {
   body?: Record<string, any> | RequestInit['body'];
@@ -37,7 +37,7 @@ export const getRequestInit = async (
 
 const logout = () => {
   if (!window.location.href.includes('/login')) {
-    window.open(`${window.location.origin}/login`, '_self');
+    window.open(`${import.meta.env.VITE_LOCATION_ORIGIN}/login`, '_self');
   }
 };
 
