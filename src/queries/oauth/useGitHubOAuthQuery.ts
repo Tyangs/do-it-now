@@ -18,7 +18,7 @@ export interface IUseGitHubOAuthParams {
 export const useGitHubOAuthQuery = (params: IUseGitHubOAuthParams) => {
   const { code, onSuccess, onError } = params;
 
-  const uri = `http://localhost:9001/oauth/github?code=${code}`;
+  const uri = `${import.meta.env.VITE_YOUNGS_API}/oauth/github?code=${code}`;
 
   return useQuery(
     [GET_GITHUB_ACCESS_TOKEN, code],
