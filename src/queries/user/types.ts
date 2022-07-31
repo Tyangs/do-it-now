@@ -1,3 +1,7 @@
+export interface IUseGitHubUserParams {
+  enabled?: boolean;
+}
+
 export interface IGitHubUserResponse {
   avatar_url: string;
   bio: string;
