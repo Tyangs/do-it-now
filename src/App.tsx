@@ -1,18 +1,23 @@
-import OAuthProvider from '@/providers/OAuthProvider';
+// import OAuthProvider from '@/providers/OAuthProvider';
 import ReactQueryClientProvider from '@/providers/ReactQueryClientProvider';
+import { useGitHubOAuthQuery } from '@/queries/oauth';
 
 import Router from './Router';
 
-function App() {
+function AppContent() {
+  useGitHubOAuthQuery();
+
   return (
     <div className="light">
-      <ReactQueryClientProvider>
-        <OAuthProvider>
-          <Router />
-        </OAuthProvider>
-      </ReactQueryClientProvider>
+      <Router />
     </div>
   );
 }
+
+const App = () => (
+  <ReactQueryClientProvider>
+    <AppContent />
+  </ReactQueryClientProvider>
+);
 
 export default App;

@@ -1,12 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useUserInfo } from '@/hooks/useUserInfo';
+import { oauthStore } from '@/store/oauthStore';
+
+// import { useUserInfo } from '@/hooks/useUserInfo';
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const user = useUserInfo();
+  const { user } = oauthStore();
 
   return (
     <div>

@@ -1,12 +1,15 @@
 import { useQuery } from 'react-query';
 
 import { GET_GITHUB_USER } from '@/constants/queryKeys';
+import { oauthStore } from '@/store/oauthStore';
+import { getLocationValue } from '@/utils/location';
 import { request } from '@/utils/request';
 
-import { IGitHubUserResponse, IUseGitHubUserParams } from './types';
+import { IGitHubUserResponse } from './types';
+const isLoginPage = getLocationValue('pathname').includes('/login');
 
-export const useGitHubUserQuery = (params?: IUseGitHubUserParams) => {
-  const { enabled = false } = params ?? {};
+export const useGitHubUserQuery = () => {
+  const { initUser } = oauthStore();
 
   return useQuery(
     GET_GITHUB_USER,
@@ -17,7 +20,10 @@ export const useGitHubUserQuery = (params?: IUseGitHubUserParams) => {
       return response;
     },
     {
-      enabled,
+      enabled: !isLoginPage,
+      onSuccess: data => {
+        initUser(data);
+      },
     }
   );
 };

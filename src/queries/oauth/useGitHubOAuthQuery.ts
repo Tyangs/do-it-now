@@ -1,35 +1,34 @@
 import { useQuery } from 'react-query';
 
 import { GET_GITHUB_ACCESS_TOKEN } from '@/constants/queryKeys';
+import { DO_IT_NOW_TOKEN_KEY } from '@/constants/storageKeys';
+import { getLocationSearch } from '@/utils/location';
 import { request } from '@/utils/request';
-
 export interface IGitHubOAuthResponse {
   access_token: string;
   scope: string;
   token_type: 'bearer';
 }
 
-export interface IUseGitHubOAuthParams {
-  code?: string | null;
-  onSuccess?: (data: IGitHubOAuthResponse) => void;
-  onError?: (err: unknown) => void;
-}
+const gitHubOAuthCode = getLocationSearch('code');
 
-export const useGitHubOAuthQuery = (params: IUseGitHubOAuthParams) => {
-  const { code, onSuccess, onError } = params;
-
-  const uri = `${import.meta.env.VITE_YOUNGS_API}/oauth/github?code=${code}`;
+export const useGitHubOAuthQuery = () => {
+  const uri = `${
+    import.meta.env.VITE_YOUNGS_API
+  }/oauth/github?code=${gitHubOAuthCode}`;
 
   return useQuery(
-    [GET_GITHUB_ACCESS_TOKEN, code],
+    [GET_GITHUB_ACCESS_TOKEN, gitHubOAuthCode],
     async () => {
       const response = await request<IGitHubOAuthResponse>(uri);
       return response;
     },
     {
-      enabled: !!code,
-      onSuccess: onSuccess,
-      onError: onError,
+      enabled: !!gitHubOAuthCode,
+      onSuccess: data => {
+        window.localStorage.setItem(DO_IT_NOW_TOKEN_KEY, data.access_token);
+        window.open(import.meta.env.VITE_LOCATION_ORIGIN, '_self');
+      },
     }
   );
 };
