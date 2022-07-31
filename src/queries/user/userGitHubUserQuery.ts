@@ -3,9 +3,11 @@ import { useQuery } from 'react-query';
 import { GET_GITHUB_USER } from '@/constants/queryKeys';
 import { request } from '@/utils/request';
 
-import { IGitHubUserResponse } from './types';
+import { IGitHubUserResponse, IUseGitHubUserParams } from './types';
 
-export const useGitHubUserQuery = () => {
+export const useGitHubUserQuery = (params?: IUseGitHubUserParams) => {
+  const { enabled = false } = params ?? {};
+
   return useQuery(
     GET_GITHUB_USER,
     async () => {
@@ -15,7 +17,7 @@ export const useGitHubUserQuery = () => {
       return response;
     },
     {
-      retry: false,
+      enabled,
     }
   );
 };
